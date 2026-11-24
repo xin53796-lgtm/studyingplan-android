@@ -123,6 +123,8 @@ button.x{border:none;background:none;font-size:18px;color:var(--sub);cursor:poin
 .tools textarea{width:100%;min-height:90px}
 .msg{font-size:12px;margin-top:6px;color:var(--ok)}
 .emp{text-align:center;color:var(--sub);padding:14px}
+#calPanel{padding:14px;border:1px solid #bfd0c9;border-radius:14px;background:rgba(255,255,255,.35)}
+#calPanel .calrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0} #calPanel select{width:100%;padding:8px;border:1px solid #bfd0c9;border-radius:8px;background:transparent;color:inherit} #calPanel input[type=checkbox]{width:22px;height:22px;accent-color:#7fb0ac} #calStatus{overflow-wrap:anywhere} #calTarget{overflow-wrap:anywhere} #calPanel .btn{margin-top:5px}
 </style>
 </head>
 <body>
@@ -176,12 +178,12 @@ button.x{border:none;background:none;font-size:18px;color:var(--sub);cursor:poin
     <textarea id="memo" placeholder="今天学到了什么？写满了就翻到下一页 ↓"></textarea>
     <div class="mf"><button id="mprev">‹</button><span id="mpi"></span><button id="mnext">›</button><button id="madd">＋新页</button><button id="mdel">删本页</button></div>
   </div>
-  <div class="pane tools" id="p-bk"><div id="calPanel" style="display:none;margin-bottom:12px"><b>系统日历自动同步</b><p id="calStatus" class="hint"></p><button class="btn" id="calEnable">授权 / 选择日历</button><select id="calSelect" style="display:none;max-width:100%"></select><button class="btn" id="calConfirm" style="display:none">确认同步</button></div>
-    <div class="f" style="align-items:center;margin-bottom:4px"><span>截止前</span><input id="rd" type="number" min="1" max="30" style="flex:none;width:58px"><span>天弹窗提醒</span><button class="btn" id="nt">开启手机通知</button></div>
-    <div class="small" style="margin-bottom:10px;font-size:12px;color:var(--sub)">到提醒时间后打开页面会弹出提醒，点“确定”才会消失；开启手机通知后，页面在后台时也会发系统通知（建议添加到主屏幕使用）。</div>
+  <div class="pane tools" id="p-bk"><div id="calPanel" style="display:none;margin-bottom:12px"><div class="calrow"><b>系统日历自动同步</b><label><input type="checkbox" id="calToggle" aria-label="自动同步"></label></div><p id="calStatus" class="hint" role="status"></p><div class="calrow"><span>同步至</span><span id="calTarget">尚未选择</span></div><div class="calrow"><span>同步延迟</span><span>2 秒</span></div><button class="btn" id="calEnable">授权 / 选择日历</button><div id="calPicker" hidden><select id="calSelect" aria-label="选择日历"></select><button class="btn" id="calConfirm">确认同步</button></div><p class="small">新增、修改或删除任务后自动同步。暂停时保留已写入的日历事件。</p></div>
+    <div class="f" style="align-items:center;margin-bottom:4px"><span>截止前</span><input id="rd" type="number" min="1" max="30" style="flex:none;width:58px"><span id="reminderLabel">天弹窗提醒</span><button class="btn" id="nt">开启手机通知</button></div>
+    <div id="webNotifyHelp" class="small" style="margin-bottom:10px;font-size:12px;color:var(--sub)">到提醒时间后打开页面会弹出提醒，点“确定”才会消失；开启手机通知后，页面在后台时也会发系统通知（建议添加到主屏幕使用）。</div>
     <div class="msg" id="ntm" style="margin:0 0 10px"></div>
     <div class="f"><button class="btn ics">📅 添加到手机日历（含提前提醒）</button></div>
-    <div class="small" style="margin-bottom:12px;font-size:12px;color:var(--sub)">导出后用手机日历打开，到点时系统日历会提醒（截止前 N 天和截止时各一次），不需要打开本页面。新增或修改任务后请重新导出，同一事项通常会更新而不是重复。</div>
+    <div id="webExportHelp" class="small" style="margin-bottom:12px;font-size:12px;color:var(--sub)">导出后用手机日历打开，到点时系统日历会提醒（截止前 N 天和截止时各一次），不需要打开本页面。新增或修改任务后请重新导出，同一事项通常会更新而不是重复。</div>
     <textarea id="bk" placeholder="点“生成备份”后复制保存；恢复时粘贴到这里再点恢复。"></textarea>
     <div class="f" style="margin-top:8px"><button class="btn" id="exp">生成备份</button><button class="btn" id="imp">恢复</button></div>
     <div class="msg" id="bm"></div>
@@ -292,7 +294,7 @@ $("cmpL").onclick=e=>{const r=e.target.closest(".cmp");if(r){cur=r.dataset.k;clo
 $("exp").onclick=()=>{const b=$("bk");b.value=JSON.stringify(D);b.focus();b.select();let ok=false;try{ok=document.execCommand("copy")}catch(e){}
   $("bm").style.color="var(--ok)";$("bm").textContent=ok?"已生成并复制，请粘贴保存好。":"已生成，请长按全选并复制保存。"};
 $("imp").onclick=()=>{try{const o=JSON.parse($("bk").value);if(!o||!o.tasks)throw 0;
-  const localCalendar=D.calendarId;D=Object.assign({tasks:{},memo:{},course:[],cds:[]},o);D.calendarId=localCalendar;if(!D.cds)D.cds=[];save();renderRows();
+  const localCalendar=D.calendarId, localEnabled=D.calendarEnabled, localName=D.calendarName;D=Object.assign({tasks:{},memo:{},course:[],cds:[]},o);D.calendarId=localCalendar;D.calendarEnabled=localEnabled;D.calendarName=localName;if(!D.cds)D.cds=[];save();renderRows();
   $("bm").style.color="var(--ok)";$("bm").textContent="恢复成功 ✓"}catch(e){$("bm").style.color="var(--bad)";$("bm").textContent="备份内容无法识别，请检查是否完整粘贴。"}};
 function fishText(name,time){
   const n=[...String(name)],per=9;
@@ -409,9 +411,20 @@ document.addEventListener("click",e=>{if(e.target.closest(".ics"))exportIcs()});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkAlerts()});
 const nativeCalendar=window.Capacitor?.isNativePlatform?.()?window.Capacitor.Plugins.CalendarSync:null;
 let calTimer,calBusy=false,calAgain=false,lastSynced="";
-function scheduleCalendar(){if(!nativeCalendar||!D.calendarId)return;clearTimeout(calTimer);calTimer=setTimeout(syncCalendar,2000)}
-async function syncCalendar(){if(!nativeCalendar||!D.calendarId)return;if(calBusy){calAgain=true;return}const items=[];const now=Date.now();D.course.forEach(c=>{const at=+new Date(c.due);if(!c.done&&at>now)items.push({id:"co-"+c.id,title:"【任务截止】"+(c.sub?c.sub+" · ":"")+c.t,at})});D.cds.forEach(c=>{const at=+new Date(c.at);if(at>now)items.push({id:"cd-"+c.id,title:"【倒计时】"+c.name,at})});const payload={calendarId:String(D.calendarId),days:D.rd||2,items};const signature=JSON.stringify(payload);if(signature===lastSynced)return;calBusy=true;try{await nativeCalendar.sync(payload);lastSynced=signature;$("calStatus").textContent="日历同步成功 ✓"}catch(e){$("calStatus").textContent="同步失败："+(e.message||e)+"；稍后重试";clearTimeout(calTimer);calTimer=setTimeout(syncCalendar,30000)}finally{calBusy=false;if(calAgain){calAgain=false;scheduleCalendar()}}}
-if(nativeCalendar){document.querySelectorAll(".ics").forEach(b=>b.style.display="none");$("calPanel").style.display="block";$("calStatus").textContent=D.calendarId?"自动同步已开启":"请首次授权并选择日历";$("calEnable").onclick=async()=>{try{const r=await nativeCalendar.authorize();if(!r.granted){$("calStatus").textContent="未授权，请在系统设置允许日历权限";return}const a=await nativeCalendar.calendars();const sel=$("calSelect");sel.replaceChildren();for(const c of a.items){const opt=document.createElement("option");opt.value=c.id;opt.textContent=c.name;sel.appendChild(opt)}if(!a.items.length){$("calStatus").textContent="没有可写日历，请先在手机日历添加账户";return}sel.style.display="";$("calConfirm").style.display=""}catch(e){$("calStatus").textContent=e.message}};$("calConfirm").onclick=()=>{D.calendarId=$("calSelect").value;lastSynced="";save();$("calStatus").textContent="将在2秒后同步"};document.addEventListener("visibilitychange",()=>{if(!document.hidden)scheduleCalendar()});}
+function scheduleCalendar(){if(!nativeCalendar||!D.calendarId||D.calendarEnabled===false)return;clearTimeout(calTimer);calTimer=setTimeout(syncCalendar,2000)}
+async function syncCalendar(){if(!nativeCalendar||!D.calendarId||D.calendarEnabled===false)return;if(calBusy){calAgain=true;return}const items=[];const now=Date.now();D.course.forEach(c=>{const at=+new Date(c.due);if(!c.done&&at>now)items.push({id:"co-"+c.id,title:"【任务截止】"+(c.sub?c.sub+" · ":"")+c.t,at})});D.cds.forEach(c=>{const at=+new Date(c.at);if(at>now)items.push({id:"cd-"+c.id,title:"【倒计时】"+c.name,at})});const payload={calendarId:String(D.calendarId),days:D.rd||2,items};const signature=JSON.stringify(payload);if(signature===lastSynced)return;calBusy=true;$("calStatus").textContent="正在同步…";try{await nativeCalendar.sync(payload);lastSynced=D.calendarEnabled===false?"":signature;$("calStatus").textContent=D.calendarEnabled===false?"已暂停":"日历同步成功 ✓"}catch(e){$("calStatus").textContent="同步失败："+(e.message||e)+"；稍后重试";clearTimeout(calTimer);if(D.calendarEnabled!==false)calTimer=setTimeout(syncCalendar,30000);else $("calStatus").textContent="已暂停"}finally{calBusy=false;if(calAgain){calAgain=false;scheduleCalendar()}}}
+function calendarLabel(name,i){const n=String(name||"").split(" · ")[0];return /xiaomi/i.test(n)?"小米系统日历":n.startsWith("calendar_displayname_")?"系统日历 "+(i+1):n||"日历 "+(i+1)}
+function showCalendarSettings(){ $("calToggle").checked=!!D.calendarId&&D.calendarEnabled!==false;$("calTarget").textContent=D.calendarName||(D.calendarId?"已选系统日历":"尚未选择");$("calEnable").textContent=D.calendarId?"更换日历 / 重新授权":"授权 / 选择日历"; }
+if(nativeCalendar){
+ document.querySelectorAll(".ics").forEach(b=>b.style.display="none");for(const id of ["nt","ntm","webNotifyHelp","webExportHelp"])$(id).style.display="none";
+ $("reminderLabel").textContent="天提醒（含截止时）";$("calPanel").style.display="block";showCalendarSettings();
+ $("calStatus").textContent=D.calendarId?(D.calendarEnabled===false?"已暂停":"等待同步") : "请首次授权并选择日历";
+ $("calEnable").onclick=async()=>{try{const r=await nativeCalendar.authorize();if(!r.granted){$("calStatus").textContent="未授权，请在系统设置允许日历权限";return}const a=await nativeCalendar.calendars();const sel=$("calSelect");sel.replaceChildren();for(const [i,c] of a.items.entries()){const opt=document.createElement("option");opt.value=c.id;opt.textContent=calendarLabel(c.name,i);sel.appendChild(opt)}if(!a.items.length){$("calStatus").textContent="没有可写日历，请先在手机日历添加账户";return}if(D.calendarId)sel.value=D.calendarId;if(!sel.value)sel.selectedIndex=0;$("calPicker").hidden=false}catch(e){$("calStatus").textContent=e.message||String(e)}};
+ $("calConfirm").onclick=()=>{const sel=$("calSelect");if(!sel.value)return;D.calendarId=sel.value;D.calendarName=sel.selectedOptions[0].textContent;D.calendarEnabled=true;lastSynced="";$("calPicker").hidden=true;showCalendarSettings();$("calStatus").textContent="将在2秒后同步";save()};
+ $("calToggle").onchange=()=>{if(!D.calendarId){$("calToggle").checked=false;$("calEnable").click();return}D.calendarEnabled=$("calToggle").checked;clearTimeout(calTimer);lastSynced="";$("calStatus").textContent=D.calendarEnabled?"将在2秒后同步":"已暂停";save()};
+ if(D.calendarId&&!D.calendarName)nativeCalendar.calendars().then(a=>{const i=a.items.findIndex(c=>String(c.id)===String(D.calendarId));if(i>=0&&!D.calendarName){D.calendarName=calendarLabel(a.items[i].name,i);showCalendarSettings();save()}}).catch(()=>{});
+ document.addEventListener("visibilitychange",()=>{if(!document.hidden)scheduleCalendar()});
+}
 save();renderRows();hang();checkAlerts();setInterval(()=>{tick();hang();checkAlerts()},1000);
 
 if (!nativeCalendar && "serviceWorker" in navigator) {
