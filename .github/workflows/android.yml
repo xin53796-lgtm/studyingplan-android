@@ -31,12 +31,6 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Check Android SDK
-        run: |
-          echo "$ANDROID_HOME"
-          ls "$ANDROID_HOME/platforms"
-          ls "$ANDROID_HOME/build-tools"
-
       - name: Install Android SDK packages
         run: |
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-35" "build-tools;35.0.0"
@@ -60,7 +54,33 @@ jobs:
           cd android
           ./gradlew assembleDebug
 
+      - name: Sign APK
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          set -e
+          umask 077
+          KEYSTORE="$RUNNER_TEMP/studyplanner.p12"
+          trap 'rm -f "$KEYSTORE"' EXIT
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$KEYSTORE"
+
+          mkdir -p output
+
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" sign \
+            --ks "$KEYSTORE" \
+            --ks-type PKCS12 \
+            --ks-key-alias studyplanner \
+            --ks-pass env:KEYSTORE_PASSWORD \
+            --key-pass env:KEYSTORE_PASSWORD \
+            --out output/studyplanner.apk \
+            android/app/build/outputs/apk/debug/app-debug.apk
+
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify \
+            --verbose output/studyplanner.apk
+
       - uses: actions/upload-artifact@v4
         with:
-          name: study-planner-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: study-planner-signed-apk
+          path: output/studyplanner.apk
+          if-no-files-found: error
