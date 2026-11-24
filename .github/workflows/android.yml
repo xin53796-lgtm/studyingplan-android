@@ -1,1 +1,47 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Organize project files
+        run: |
+          mkdir -p www native
+          for f in index.html manifest.json sw.js icon-192.png icon-512.png; do
+            if [ -f "$f" ]; then mv "$f" www/; fi
+          done
+          for f in CalendarSync.java MainActivity.java; do
+            if [ -f "$f" ]; then mv "$f" native/; fi
+          done
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: android-actions/setup-android@v3
+
+      - run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+
+      - run: npm install && npx cap add android && npx cap sync android
+
+      - run: pip install Pillow && python prepare.py
+
+      - run: chmod +x android/gradlew && cd android && ./gradlew assembleDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: study-planner-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
 
