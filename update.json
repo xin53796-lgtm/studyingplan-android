@@ -1,14 +1,16 @@
 {
-  "versionName": "3.2.1",
-  "versionCode": 33,
-  "title": "在线更新",
+  "versionName": "3.2.2",
+  "versionCode": 34,
+  "title": "温柔相伴",
   "forceUpdate": false,
-  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.1/studyplanner.apk",
-  "sha256": "f1680cd290c339be3cd67fa4299c756cc31a0035df784125b1a8169fecaa3917",
+  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.2/studyplanner.apk",
+  "sha256": "eef24c824e28f70d0dcba7de4d2b86fd80122667692fe063c779d6cf539efdf3",
+  "intro": "每一次细微的改变，都是为了更好地陪伴你。",
   "changelog": [
-    "完善在线版本更新服务",
-    "支持应用内更新提醒及下载安装",
-    "保留原有全部功能与主题设计",
-    "优化版本更新体验"
-  ]
+    "修复小米系统在线更新安装权限问题。",
+    "优化安卓安装器兼容性及文件授权机制。",
+    "全新版本更新公告，支持完整寄语与段落展示。",
+    "保留原有学习功能、主题设计与个性化体验。"
+  ],
+  "outro": "愿每一次更新，都让我们离更美好的学习生活近一点。"
 }
