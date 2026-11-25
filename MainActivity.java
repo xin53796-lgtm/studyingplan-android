@@ -13,7 +13,7 @@ import android.webkit.JavascriptInterface;
 import com.getcapacitor.BridgeActivity;
 public class MainActivity extends BridgeActivity implements SensorEventListener {
  private SensorManager sensors; private Sensor accelerometer; private boolean requested=false, foreground=false, listening=false;
- @Override public void onCreate(Bundle state){ registerPlugin(CalendarSync.class); super.onCreate(state); sensors=(SensorManager)getSystemService(SENSOR_SERVICE); accelerometer=sensors.getDefaultSensor(Sensor.TYPE_ACCELEROMETER); getBridge().getWebView().addJavascriptInterface(new MotionBridge(),"StudyMotion"); getBridge().getWebView().addJavascriptInterface(new TimerBridge(),"StudyTimerNative"); }
+ @Override public void onCreate(Bundle state){ registerPlugin(CalendarSync.class); super.onCreate(state); sensors=(SensorManager)getSystemService(SENSOR_SERVICE); accelerometer=sensors.getDefaultSensor(Sensor.TYPE_ACCELEROMETER); getBridge().getWebView().addJavascriptInterface(new MotionBridge(),"StudyMotion"); getBridge().getWebView().addJavascriptInterface(new TimerBridge(),"StudyTimerNative"); getBridge().getWebView().addJavascriptInterface(new HapticBridge(),"StudyHaptics"); }
  public class MotionBridge { @JavascriptInterface public void setEnabled(boolean enabled){runOnUiThread(()->{requested=enabled;updateMotion();});} }
  private void updateMotion(){if(sensors==null)return;boolean next=requested&&foreground&&accelerometer!=null;if(next==listening)return;if(next)listening=sensors.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_GAME);else {sensors.unregisterListener(this);listening=false;}}
  @Override public void onResume(){super.onResume();foreground=true;updateMotion();}
@@ -22,6 +22,25 @@ public class MainActivity extends BridgeActivity implements SensorEventListener 
  @Override public void onAccuracyChanged(Sensor sensor,int accuracy){}
  @Override public void onSensorChanged(SensorEvent e){if(!listening)return;float x=e.values[0],y=e.values[1];if(!Float.isFinite(x)||!Float.isFinite(y))return;getBridge().getWebView().evaluateJavascript("window.studyMotionSample && window.studyMotionSample("+x+","+y+")",null);}
 
+
+ public class HapticBridge {
+  private long lastTick=0;
+  @JavascriptInterface public void pulse(String kind,String strength){runOnUiThread(()->{
+   if(!foreground)return;
+   boolean tick="tick".equals(kind); long now=SystemClock.elapsedRealtime();
+   if(tick && now-lastTick<45)return; if(tick)lastTick=now;
+   // Do not interrupt the existing repeating completion alarm.
+   if(TimerService.prefs(MainActivity.this).getBoolean("pendingDone",false))return;
+   int duration=35, amplitude=155;
+   switch(kind==null?"tap":kind){case "tick":duration=18;amplitude=100;break;case "nav":duration=40;break;case "confirm":duration=55;amplitude=200;break;case "start":duration=85;amplitude=255;break;case "reset":duration=70;amplitude=220;break;case "end":duration=45;amplitude=180;break;}
+   float factor="轻柔".equals(strength)?0.55f:"增强".equals(strength)?1.25f:0.85f;
+   try { Vibrator v=(Vibrator)getSystemService(VIBRATOR_SERVICE); if(v!=null&&v.hasVibrator()){
+    int ms=Math.max(10,Math.round(duration*factor)); int amp=Math.max(1,Math.min(255,Math.round(amplitude*factor)));
+    if(Build.VERSION.SDK_INT>=26)v.vibrate(VibrationEffect.createOneShot(ms,v.hasAmplitudeControl()?amp:VibrationEffect.DEFAULT_AMPLITUDE));else v.vibrate(ms);
+   }else getBridge().getWebView().performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+   }catch(Exception e){getBridge().getWebView().performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);}
+  });}
+ }
  public class TimerBridge {
   @JavascriptInterface public void setState(String value){runOnUiThread(()->{if(android.os.Build.VERSION.SDK_INT>=33 && checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED && !value.equals("null"))requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},321); TimerService.set(MainActivity.this,value);});}
   @JavascriptInterface public String snapshot(){return TimerService.snapshot(MainActivity.this);}

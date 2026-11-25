@@ -15,9 +15,9 @@ for f in (p/'res').glob('mipmap-anydpi*/ic_launcher*.xml'): f.unlink()
 f=Path('android/app/build.gradle')
 s=f.read_text()
 import re
-s,n=re.subn(r'versionCode\s+\d+', 'versionCode 30', s, count=1)
+s,n=re.subn(r'versionCode\s+\d+', 'versionCode 31', s, count=1)
 assert n == 1, 'versionCode not found'
-s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.0.0"', s, count=1)
+s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.1.0"', s, count=1)
 assert n == 1, 'versionName not found'
 f.write_text(s)
 
