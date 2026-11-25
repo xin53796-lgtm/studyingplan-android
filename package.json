@@ -1,6 +1,6 @@
 {
   "name": "study-planner",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "private": true,
   "dependencies": {
     "@capacitor/core": "7.4.3",
