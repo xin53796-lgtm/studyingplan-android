@@ -1,16 +1,18 @@
 {
-  "versionName": "3.2.5",
-  "versionCode": 37,
-  "title": "一路相伴",
+  "versionName": "3.2.6",
+  "versionCode": 38,
+  "title": "畅行无忧",
   "forceUpdate": false,
-  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.5/studyplanner.apk",
-  "sha256": "e87c245010393eacc8c6bd57754701205ed558b046c133f821bdef307d9266d2",
-  "intro": "所有用心的改变，都藏着对美好未来的期待。",
+  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.6/studyplanner.apk",
+  "browserDownloadUrl": "https://www.pgyer.com/xiaoyuaixuexi",
+  "sha256": "db7226f05e65edf9ec6a220dacbd0e691ae71aeab4da53255ac6d421d5500cde",
+  "intro": "愿每一次相遇，都不再受距离的阻碍。",
   "changelog": [
-    "验证全新在线更新安装机制。",
-    "验证安卓系统安装兼容性。",
-    "支持完整的版本更新寄语与公告。",
-    "保留原有学习功能及个性化主题体验。"
+    "新增 Gitee 国内版本检测线路。",
+    "支持双线路自动切换。",
+    "新增蒲公英国内下载渠道。",
+    "优化网络异常提示。",
+    "保留原有学习功能及个性化主题。"
   ],
-  "outro": "愿每一个努力的日子，都有小鱼陪你慢慢成长。"
+  "outro": "愿小鱼跨越山海，始终与你一路相伴。"
 }
