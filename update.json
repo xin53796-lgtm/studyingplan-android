@@ -4,11 +4,13 @@
   "title": "艺术笔迹",
   "forceUpdate": false,
   "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.0/studyplanner.apk",
-  "sha256": "",
+  "sha256": "cbfcb76c22be64d161f0cedc0ad828274d0e75f2cf55c2a45bd0569f799e321b",
   "changelog": [
     "新增八种艺术文字动效",
     "支持多页任务批注",
-    "主题化时钟与日历",
-    "新增在线更新"
+    "全新主题化时钟与日历",
+    "统一全局时钟调整音效",
+    "优化声音与触感体验",
+    "新增在线更新系统"
   ]
 }
