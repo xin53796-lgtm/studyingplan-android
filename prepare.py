@@ -15,9 +15,9 @@ for f in (p/'res').glob('mipmap-anydpi*/ic_launcher*.xml'): f.unlink()
 f=Path('android/app/build.gradle')
 s=f.read_text()
 import re
-s,n=re.subn(r'versionCode\s+\d+', 'versionCode 33', s, count=1)
+s,n=re.subn(r'versionCode\s+\d+', 'versionCode 34', s, count=1)
 assert n == 1, 'versionCode not found'
-s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.2.1"', s, count=1)
+s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.2.2"', s, count=1)
 assert n == 1, 'versionName not found'
 f.write_text(s)
 
@@ -28,6 +28,15 @@ f.write_text(s)
 # Online update provider, restricted to the APK cache directory.
 f=p/'AndroidManifest.xml'
 s=f.read_text().replace('</manifest>','<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/></manifest>').replace('</application>','<provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.updateprovider" android:exported="false" android:grantUriPermissions="true"><meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/update_paths"/></provider></application>')
-f.write_text(s)
-d=p/'res/xml'; d.mkdir(parents=True,exist_ok=True)
+# Make APK handlers visible for narrowly scoped URI grants on Android 11+.
+root=E.fromstring(s)
+ns='{http://schemas.android.com/apk/res/android}'
+queries=root.find('queries')
+if queries is None: queries=E.SubElement(root,'queries')
+for action in ['android.intent.action.VIEW','android.intent.action.INSTALL_PACKAGE']:
+ intent=E.SubElement(queries,'intent'); E.SubElement(intent,'action',{ns+'name':action}); E.SubElement(intent,'data',{ns+'mimeType':'application/vnd.android.package-archive'})
+E.SubElement(queries,'package',{ns+'name':'com.miui.packageinstaller'})
+E.register_namespace('android','http://schemas.android.com/apk/res/android')
+f.write_text(E.tostring(root,encoding='unicode'))
+d=p/'res/xml' ; d.mkdir(parents=True,exist_ok=True)
 (d/'update_paths.xml').write_text('<paths xmlns:android="http://schemas.android.com/apk/res/android"><cache-path name="updates" path="updates/"/></paths>')
