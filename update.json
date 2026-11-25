@@ -1,16 +1,16 @@
 {
-  "versionName": "3.2.2",
-  "versionCode": 34,
-  "title": "温柔相伴",
+  "versionName": "3.2.3",
+  "versionCode": 35,
+  "title": "如约而至",
   "forceUpdate": false,
-  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.2/studyplanner.apk",
-  "sha256": "eef24c824e28f70d0dcba7de4d2b86fd80122667692fe063c779d6cf539efdf3",
-  "intro": "每一次细微的改变，都是为了更好地陪伴你。",
+  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.3/studyplanner.apk",
+  "sha256": "7539acb3cad01b367dd2ce15e875017a0b9500d1455fa2b5606ed0252e41d126",
+  "intro": "每一次小小的进步，都是一场温柔的相遇。",
   "changelog": [
-    "修复小米系统在线更新安装权限问题。",
-    "优化安卓安装器兼容性及文件授权机制。",
-    "全新版本更新公告，支持完整寄语与段落展示。",
-    "保留原有学习功能、主题设计与个性化体验。"
+    "验证在线更新安装权限修复。",
+    "验证安卓系统下载安装兼容性。",
+    "支持完整的版本更新寄语与公告展示。",
+    "延续原有学习功能与个性化主题体验。"
   ],
-  "outro": "愿每一次更新，都让我们离更美好的学习生活近一点。"
+  "outro": "愿小鱼始终陪伴在你身边，见证每一份努力与成长。"
 }
