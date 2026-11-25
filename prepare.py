@@ -15,9 +15,9 @@ for f in (p/'res').glob('mipmap-anydpi*/ic_launcher*.xml'): f.unlink()
 f=Path('android/app/build.gradle')
 s=f.read_text()
 import re
-s,n=re.subn(r'versionCode\s+\d+', 'versionCode 35', s, count=1)
+s,n=re.subn(r'versionCode\s+\d+', 'versionCode 36', s, count=1)
 assert n == 1, 'versionCode not found'
-s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.2.3"', s, count=1)
+s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.2.4"', s, count=1)
 assert n == 1, 'versionName not found'
 f.write_text(s)
 
@@ -25,18 +25,7 @@ f=p/'AndroidManifest.xml'
 s=f.read_text().replace('</manifest>','<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/><uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/><uses-permission android:name="android.permission.POST_NOTIFICATIONS"/><uses-permission android:name="android.permission.VIBRATE"/></manifest>').replace('</application>','<service android:name=".MainActivity$TimerService" android:exported="false" android:foregroundServiceType="specialUse"><property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User initiated study stopwatch and countdown"/></service></application>')
 f.write_text(s)
 
-# Online update provider, restricted to the APK cache directory.
+# System-managed APK installation callback.
 f=p/'AndroidManifest.xml'
-s=f.read_text().replace('</manifest>','<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/></manifest>').replace('</application>','<provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.updateprovider" android:exported="false" android:grantUriPermissions="true"><meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/update_paths"/></provider></application>')
-# Make APK handlers visible for narrowly scoped URI grants on Android 11+.
-root=E.fromstring(s)
-ns='{http://schemas.android.com/apk/res/android}'
-queries=root.find('queries')
-if queries is None: queries=E.SubElement(root,'queries')
-for action in ['android.intent.action.VIEW','android.intent.action.INSTALL_PACKAGE']:
- intent=E.SubElement(queries,'intent'); E.SubElement(intent,'action',{ns+'name':action}); E.SubElement(intent,'data',{ns+'mimeType':'application/vnd.android.package-archive'})
-E.SubElement(queries,'package',{ns+'name':'com.miui.packageinstaller'})
-E.register_namespace('android','http://schemas.android.com/apk/res/android')
-f.write_text(E.tostring(root,encoding='unicode'))
-d=p/'res/xml' ; d.mkdir(parents=True,exist_ok=True)
-(d/'update_paths.xml').write_text('<paths xmlns:android="http://schemas.android.com/apk/res/android"><cache-path name="updates" path="updates/"/></paths>')
+s=f.read_text().replace('</manifest>','<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/></manifest>').replace('</application>','<receiver android:name=".MainActivity$InstallResult" android:exported="false"/></application>')
+f.write_text(s)
