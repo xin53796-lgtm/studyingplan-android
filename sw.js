@@ -1,4 +1,4 @@
-const CACHE_NAME = "study-planner-pwa-v3.3.1-online";
+const CACHE_NAME = "study-planner-pwa-v3.3.3-online";
 const ASSETS = [
   "./",
   "./index.html",
