@@ -1,17 +1,20 @@
 {
-  "versionName": "3.2.7",
-  "versionCode": 39,
-  "title": "山海无阻",
+  "versionName": "3.2.8",
+  "versionCode": 40,
+  "title": "如约而至",
   "forceUpdate": false,
-  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.7/studyplanner.apk",
+  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.8/studyplanner.apk",
   "browserDownloadUrl": "https://www.pgyer.com/xiaoyuaixuexi",
-  "sha256": "4d0536156045c672f4aaae2c135e2da9ecf185ee278a33d3d3251a0b81964cfb",
-  "intro": "山海虽远，陪伴不减。",
+  "sha256": "64126e4007caa3a78999e71a4a27cce5cede64506601dedd97580fc162356c20",
+  "intro": "每一份期待，都值得被及时回应。",
   "changelog": [
-    "验证国内网络环境下的完整更新流程。",
-    "支持无需 VPN 检测新版本。",
-    "支持蒲公英国内下载渠道。",
-    "保留原有安全安装机制与个性化学习体验。"
+    "优化自动更新检测机制，让新版本提醒更加及时。",
+    "优化艺术动效触发范围，让每一次动画恰到好处。",
+    "修正顶部计时状态图标。",
+    "优化锁屏计时展示。",
+    "优化通知栏计时卡片，让专注状态更加清晰。",
+    "优化版本更新界面，简化更新操作与提示文案。",
+    "保留原有学习功能及个性化主题体验。"
   ],
-  "outro": "愿每一次成长，都不受距离的阻碍；愿小鱼始终陪伴在你身边。"
+  "outro": "愿每一份努力都有回响，每一份期待都如约而至。"
 }
