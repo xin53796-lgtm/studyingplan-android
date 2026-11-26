@@ -15,9 +15,9 @@ for f in (p/'res').glob('mipmap-anydpi*/ic_launcher*.xml'): f.unlink()
 f=Path('android/app/build.gradle')
 s=f.read_text()
 import re
-s,n=re.subn(r'versionCode\s+\d+', 'versionCode 49', s, count=1)
+s,n=re.subn(r'versionCode\s+\d+', 'versionCode 50', s, count=1)
 assert n == 1, 'versionCode not found'
-s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.3.4"', s, count=1)
+s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.3.5"', s, count=1)
 assert n == 1, 'versionName not found'
 f.write_text(s)
 
@@ -35,6 +35,13 @@ layout=p/'res/layout';layout.mkdir(parents=True,exist_ok=True)
 draw=p/'res/drawable';draw.mkdir(parents=True,exist_ok=True)
 for name,base in [('toggle','#E2EFF5'),('finish','#F5E3E8'),('open','#E3EBE5')]:
  (draw/('timer_'+name+'.xml')).write_text(f'<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="#59728D80"><item><shape android:shape="oval"><solid android:color="{base}"/></shape></item></ripple>')
+(layout/'study_timer_compact.xml').write_text('''<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="4dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+<TextView android:id="@+id/compact_task" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:maxLines="1" android:ellipsize="end" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
+<Chronometer android:id="@+id/compact_chrono" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
+<TextView android:id="@+id/compact_digits" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
+</LinearLayout><TextView android:id="@+id/compact_state" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxLines="1" android:textAppearance="@android:style/TextAppearance.Material.Notification"/>
+</LinearLayout>''',encoding='utf-8')
 (layout/'study_timer_expanded.xml').write_text('''<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="12dp" android:paddingBottom="6dp" android:paddingRight="32dp">
 <TextView android:id="@+id/timer_task" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="15sp" android:textStyle="bold" android:maxLines="1" android:ellipsize="end" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
 <TextView android:id="@+id/timer_digits" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="32sp" android:fontFamily="sans-serif-medium" android:layout_marginTop="4dp" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
