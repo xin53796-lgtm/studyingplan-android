@@ -15,9 +15,9 @@ for f in (p/'res').glob('mipmap-anydpi*/ic_launcher*.xml'): f.unlink()
 f=Path('android/app/build.gradle')
 s=f.read_text()
 import re
-s,n=re.subn(r'versionCode\s+\d+', 'versionCode 41', s, count=1)
+s,n=re.subn(r'versionCode\s+\d+', 'versionCode 42', s, count=1)
 assert n == 1, 'versionCode not found'
-s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.2.9"', s, count=1)
+s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.2.10"', s, count=1)
 assert n == 1, 'versionName not found'
 f.write_text(s)
 
@@ -32,12 +32,15 @@ f.write_text(s)
 
 # Expanded native timer notification layout.
 layout=p/'res/layout';layout.mkdir(parents=True,exist_ok=True)
-(layout/'study_timer_expanded.xml').write_text('''<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="6dp">
-<TextView android:id="@+id/timer_task" android:layout_width="match_parent" android:layout_height="wrap_content" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title" android:gravity="center" android:maxLines="2" android:ellipsize="end"/>
-<TextView android:id="@+id/timer_state" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textAppearance="@android:style/TextAppearance.Material.Notification"/>
-<TextView android:id="@+id/timer_digits" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="32sp" android:fontFamily="sans-serif-light" android:letterSpacing="0.035" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-<TextView android:id="@+id/timer_toggle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="44dp" android:gravity="center" android:background="?android:attr/selectableItemBackground" android:text="暂停" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
-<TextView android:id="@+id/timer_finish" android:layout_width="0dp" android:layout_weight="1" android:layout_height="44dp" android:gravity="center" android:background="?android:attr/selectableItemBackground" android:text="结束" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
-<TextView android:id="@+id/timer_open" android:layout_width="0dp" android:layout_weight="1" android:layout_height="44dp" android:gravity="center" android:background="?android:attr/selectableItemBackground" android:text="打开" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
+draw=p/'res/drawable';draw.mkdir(parents=True,exist_ok=True)
+for name,base in [('toggle','#D5E7DD'),('finish','#F0E2DF'),('open','#E3EBE5')]:
+ (draw/('timer_'+name+'.xml')).write_text(f'<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="#55728D80"><item><shape android:shape="rectangle"><solid android:color="{base}"/><corners android:radius="24dp"/></shape></item></ripple>')
+(layout/'study_timer_expanded.xml').write_text('''<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="4dp" android:paddingBottom="8dp">
+<TextView android:id="@+id/timer_task" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="15sp" android:textStyle="bold" android:maxLines="1" android:ellipsize="end" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
+<TextView android:id="@+id/timer_digits" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="32sp" android:fontFamily="sans-serif-medium" android:layout_marginTop="4dp" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
+<TextView android:id="@+id/timer_state" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="12sp" android:textAppearance="@android:style/TextAppearance.Material.Notification"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center" android:layout_marginTop="10dp">
+<TextView android:id="@+id/timer_toggle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="40dp" android:layout_marginHorizontal="4dp" android:gravity="center" android:background="@drawable/timer_toggle" android:textColor="#507D69" android:text="▶  继续" android:textSize="13sp"/>
+<TextView android:id="@+id/timer_finish" android:layout_width="0dp" android:layout_weight="1" android:layout_height="40dp" android:layout_marginHorizontal="4dp" android:gravity="center" android:background="@drawable/timer_finish" android:textColor="#986F69" android:text="□  结束" android:textSize="13sp"/>
+<TextView android:id="@+id/timer_open" android:layout_width="0dp" android:layout_weight="1" android:layout_height="40dp" android:layout_marginHorizontal="4dp" android:gravity="center" android:background="@drawable/timer_open" android:textColor="#607D70" android:text="↗  打开" android:textSize="13sp"/>
 </LinearLayout></LinearLayout>''',encoding='utf-8')
