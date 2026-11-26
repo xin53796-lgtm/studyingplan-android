@@ -1,19 +1,25 @@
+
 {
-  "versionName": "3.2.11",
-  "versionCode": 43,
-  "title": "恰到好处",
+  "versionName": "3.3.3",
+  "versionCode": 48,
+  "title": "微澜拾光",
   "forceUpdate": false,
-  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.11/studyplanner.apk",
+  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.3.3/studyplanner.apk",
   "browserDownloadUrl": "https://www.pgyer.com/xiaoyuaixuexi",
-  "sha256": "18e267f43d0ee117a293cd69f3ffa15a0af08a04e3e29f463ea1bb701eb8b7e5",
-  "intro": "删繁就简，让每一处细节恰到好处。",
+  "sha256": "f99de6560e6e2ecda8f1db2ad309a76813ec164f3af47da4cfc33710c8a3aef6",
+  "intro": "心有微澜，拾光而行。小鱼带着全新的专注体验与成长足迹，陪伴你开启新的学习旅程。",
   "changelog": [
-    "优化通知栏计时卡片布局，让专注时光更加清晰。",
-    "重新设计圆形计时按钮，带来轻盈自然的交互体验。",
-    "优化卡片点击动效及触感反馈。",
-    "精简学习内容编辑弹窗，减少冗余信息。",
-    "优化学习记录删除弹窗，让操作更加简洁。",
-    "保留原有学习功能、主题设置及学习数据。"
+    "新增自定义番茄钟，自由安排学习与休息。",
+    "新增沉浸式专注模式，享受纯粹的学习时光。",
+    "新增学习队列与专注随记，轻松安排任务、记录灵感。",
+    "新增白噪音界面，音频功能将在后续版本开放。",
+    "全面重构成长足迹，支持学习趋势、历史记录及每日寄语。",
+    "新增专注评级体系与六种小鱼成长形象，解锁专属成长图鉴。",
+    "原创海洋微澜动态计时按钮，融入流动水波与气泡动画。",
+    "放大计时圆盘中的小鱼，采用奶油低饱和配色。",
+    "统一页面字体、图标与弹窗风格，精简页面布局。",
+    "优化悬浮角色物理摆动，减少页面抖动。",
+    "优化计时通知、后台计时及锁屏通知支持。"
   ],
-  "outro": "不多一分繁杂，不少一分温柔。"
+  "outro": "成长不必轰轰烈烈，亦可以如海面微澜，安静而坚定。让每一次专注都有温度，让每一份努力都有迹可循。"
 }
