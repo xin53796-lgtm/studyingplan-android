@@ -1,20 +1,20 @@
 {
-  "versionName": "3.2.8",
-  "versionCode": 40,
-  "title": "如约而至",
+  "versionName": "3.2.9",
+  "versionCode": 41,
+  "title": "专注有迹",
   "forceUpdate": false,
-  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.8/studyplanner.apk",
+  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.9/studyplanner.apk",
   "browserDownloadUrl": "https://www.pgyer.com/xiaoyuaixuexi",
-  "sha256": "64126e4007caa3a78999e71a4a27cce5cede64506601dedd97580fc162356c20",
-  "intro": "每一份期待，都值得被及时回应。",
+  "sha256": "f4692f6c365f336026b913d80aa0f2b6f1a33225948bdd381add18235d8d992a",
+  "intro": "每一寸专注时光，都值得被温柔记录。",
   "changelog": [
-    "优化自动更新检测机制，让新版本提醒更加及时。",
-    "优化艺术动效触发范围，让每一次动画恰到好处。",
-    "修正顶部计时状态图标。",
-    "优化锁屏计时展示。",
-    "优化通知栏计时卡片，让专注状态更加清晰。",
-    "优化版本更新界面，简化更新操作与提示文案。",
-    "保留原有学习功能及个性化主题体验。"
+    "新增学习记录长按编辑功能。",
+    "优化暂停状态下的学习内容展示。",
+    "重新设计通知栏计时卡片，采用轻盈、自然的无边框设计。",
+    "精简计时操作按钮，移除冗余元素。",
+    "优化计时卡片点击反馈，让每一次交互更有温度。",
+    "优化未解锁状态下的计时通知展示。",
+    "保留原有学习功能及个性化体验。"
   ],
-  "outro": "愿每一份努力都有回响，每一份期待都如约而至。"
+  "outro": "愿每一秒专注都有意义，每一份努力都有迹可循。"
 }
