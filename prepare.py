@@ -15,9 +15,9 @@ for f in (p/'res').glob('mipmap-anydpi*/ic_launcher*.xml'): f.unlink()
 f=Path('android/app/build.gradle')
 s=f.read_text()
 import re
-s,n=re.subn(r'versionCode\s+\d+', 'versionCode 48', s, count=1)
+s,n=re.subn(r'versionCode\s+\d+', 'versionCode 49', s, count=1)
 assert n == 1, 'versionCode not found'
-s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.3.3"', s, count=1)
+s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.3.4"', s, count=1)
 assert n == 1, 'versionName not found'
 f.write_text(s)
 
@@ -38,6 +38,7 @@ for name,base in [('toggle','#E2EFF5'),('finish','#F5E3E8'),('open','#E3EBE5')]:
 (layout/'study_timer_expanded.xml').write_text('''<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center_horizontal" android:paddingTop="12dp" android:paddingBottom="6dp" android:paddingRight="32dp">
 <TextView android:id="@+id/timer_task" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="15sp" android:textStyle="bold" android:maxLines="1" android:ellipsize="end" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
 <TextView android:id="@+id/timer_digits" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="32sp" android:fontFamily="sans-serif-medium" android:layout_marginTop="4dp" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
+<Chronometer android:id="@+id/timer_chrono" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="32sp" android:fontFamily="sans-serif-medium" android:layout_marginTop="4dp" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title" android:visibility="gone"/>
 <TextView android:id="@+id/timer_state" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="12sp" android:textAppearance="@android:style/TextAppearance.Material.Notification"/>
 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center" android:layout_marginTop="12dp">
 <LinearLayout android:id="@+id/timer_toggle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center_horizontal">
