@@ -1,20 +1,19 @@
 {
-  "versionName": "3.2.10",
-  "versionCode": 42,
-  "title": "细致入微",
+  "versionName": "3.2.11",
+  "versionCode": 43,
+  "title": "恰到好处",
   "forceUpdate": false,
-  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.10/studyplanner.apk",
+  "downloadUrl": "https://github.com/xin53796-lgtm/studyingplan-android/releases/download/v3.2.11/studyplanner.apk",
   "browserDownloadUrl": "https://www.pgyer.com/xiaoyuaixuexi",
-  "sha256": "77c36f78cd05d896e52eed874f4310e72df5381294c351473ef12f964120b6c0",
-  "intro": "将温柔藏进细节，让专注更加美好。",
+  "sha256": "18e267f43d0ee117a293cd69f3ffa15a0af08a04e3e29f463ea1bb701eb8b7e5",
+  "intro": "删繁就简，让每一处细节恰到好处。",
   "changelog": [
-    "重新设计通知栏计时卡片，优化居中布局、字体及操作按钮。",
-    "重构学习内容编辑弹窗，统一主题设计风格。",
-    "优化学习记录排版，独立展示学习时长。",
-    "优化删除按钮，新增主题化删除确认弹窗。",
-    "增强学习卡片点击、长按及触感反馈。",
-    "优化锁屏计时通知兼容机制。",
-    "保留原有学习数据及个性化主题体验。"
+    "优化通知栏计时卡片布局，让专注时光更加清晰。",
+    "重新设计圆形计时按钮，带来轻盈自然的交互体验。",
+    "优化卡片点击动效及触感反馈。",
+    "精简学习内容编辑弹窗，减少冗余信息。",
+    "优化学习记录删除弹窗，让操作更加简洁。",
+    "保留原有学习功能、主题设置及学习数据。"
   ],
-  "outro": "愿每一处细节都带来温柔，每一份专注都留下美好的印记。"
+  "outro": "不多一分繁杂，不少一分温柔。"
 }
