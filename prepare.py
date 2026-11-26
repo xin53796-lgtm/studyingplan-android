@@ -15,9 +15,9 @@ for f in (p/'res').glob('mipmap-anydpi*/ic_launcher*.xml'): f.unlink()
 f=Path('android/app/build.gradle')
 s=f.read_text()
 import re
-s,n=re.subn(r'versionCode\s+\d+', 'versionCode 40', s, count=1)
+s,n=re.subn(r'versionCode\s+\d+', 'versionCode 41', s, count=1)
 assert n == 1, 'versionCode not found'
-s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.2.8"', s, count=1)
+s,n=re.subn(r'versionName\s+["\'][^"\']+["\']', 'versionName "3.2.9"', s, count=1)
 assert n == 1, 'versionName not found'
 f.write_text(s)
 
@@ -32,12 +32,12 @@ f.write_text(s)
 
 # Expanded native timer notification layout.
 layout=p/'res/layout';layout.mkdir(parents=True,exist_ok=True)
-(layout/'study_timer_expanded.xml').write_text('''<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="8dp">
-<TextView android:id="@+id/timer_task" android:layout_width="match_parent" android:layout_height="wrap_content" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title" android:maxLines="1" android:ellipsize="end"/>
+(layout/'study_timer_expanded.xml').write_text('''<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="6dp">
+<TextView android:id="@+id/timer_task" android:layout_width="match_parent" android:layout_height="wrap_content" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title" android:gravity="center" android:maxLines="2" android:ellipsize="end"/>
 <TextView android:id="@+id/timer_state" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textAppearance="@android:style/TextAppearance.Material.Notification"/>
-<TextView android:id="@+id/timer_digits" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="32sp" android:fontFamily="monospace" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
+<TextView android:id="@+id/timer_digits" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:textSize="32sp" android:fontFamily="sans-serif-light" android:letterSpacing="0.035" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-<TextView android:id="@+id/timer_toggle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="40dp" android:gravity="center" android:text="暂停" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
-<TextView android:id="@+id/timer_finish" android:layout_width="0dp" android:layout_weight="1" android:layout_height="40dp" android:gravity="center" android:text="结束" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
-<TextView android:id="@+id/timer_open" android:layout_width="0dp" android:layout_weight="1" android:layout_height="40dp" android:gravity="center" android:text="打开" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
+<TextView android:id="@+id/timer_toggle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="44dp" android:gravity="center" android:background="?android:attr/selectableItemBackground" android:text="暂停" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
+<TextView android:id="@+id/timer_finish" android:layout_width="0dp" android:layout_weight="1" android:layout_height="44dp" android:gravity="center" android:background="?android:attr/selectableItemBackground" android:text="结束" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
+<TextView android:id="@+id/timer_open" android:layout_width="0dp" android:layout_weight="1" android:layout_height="44dp" android:gravity="center" android:background="?android:attr/selectableItemBackground" android:text="打开" android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"/>
 </LinearLayout></LinearLayout>''',encoding='utf-8')
