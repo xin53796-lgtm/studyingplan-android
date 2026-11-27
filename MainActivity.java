@@ -64,6 +64,19 @@ public class MainActivity extends BridgeActivity implements SensorEventListener 
   });}
  }
  public class TimerBridge {
+  @JavascriptInterface public void lockTest(int kind){runOnUiThread(()->{try{
+   NotificationManager m=getSystemService(NotificationManager.class); m.cancel(2396);
+   if(kind==0)return;
+   if(kind<1||kind>3)return;
+   if(Build.VERSION.SDK_INT>=33&&checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED){requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},321);android.widget.Toast.makeText(MainActivity.this,"请授权后重新测试",0).show();return;}
+   String channel=TimerService.RUN;
+   if(Build.VERSION.SDK_INT>=26&&m.getNotificationChannel(channel)==null){android.widget.Toast.makeText(MainActivity.this,"请先启动并结束一次学习计时",1).show();return;}
+   Notification.Builder b=Build.VERSION.SDK_INT>=26?new Notification.Builder(MainActivity.this,channel):new Notification.Builder(MainActivity.this);
+   b.setSmallIcon(android.R.drawable.ic_lock_idle_alarm).setContentTitle("锁屏诊断 "+kind).setContentText(kind==1?"普通通知测试":"计时通知测试（不计入学习记录）").setVisibility(Notification.VISIBILITY_PUBLIC).setPriority(Notification.PRIORITY_DEFAULT).setOnlyAlertOnce(true).setOngoing(kind!=1).setCategory(kind==1?Notification.CATEGORY_STATUS:Notification.CATEGORY_STOPWATCH);
+   if(kind==2)b.setWhen(System.currentTimeMillis()).setShowWhen(true).setUsesChronometer(true);
+   if(kind==3){android.widget.RemoteViews v=new android.widget.RemoteViews(getPackageName(),R.layout.study_timer_compact);v.setTextViewText(R.id.compact_task,"锁屏诊断 3");v.setTextViewText(R.id.compact_state,"自定义计时布局测试");v.setViewVisibility(R.id.compact_digits,android.view.View.GONE);v.setViewVisibility(R.id.compact_chrono,android.view.View.VISIBLE);v.setChronometer(R.id.compact_chrono,SystemClock.elapsedRealtime(),null,true);b.setShowWhen(false).setCustomContentView(v).setStyle(new Notification.DecoratedCustomViewStyle());}
+   if(Build.VERSION.SDK_INT>=26)b.setTimeoutAfter(120000);m.notify(2396,b.build());android.widget.Toast.makeText(MainActivity.this,"测试通知已发送，请立即锁屏",0).show();
+  }catch(Exception e){android.widget.Toast.makeText(MainActivity.this,"测试失败："+e.getMessage(),1).show();}});}
   @JavascriptInterface public void setFeedback(boolean enabled,String strength){TimerService.prefs(MainActivity.this).edit().putBoolean("feedback",enabled).putString("strength",strength).apply();}
   @JavascriptInterface public void setState(String value){runOnUiThread(()->{if(android.os.Build.VERSION.SDK_INT>=33 && checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED && !value.equals("null"))requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},321); TimerService.set(MainActivity.this,value);});}
   @JavascriptInterface public String snapshot(){return TimerService.snapshot(MainActivity.this);}
